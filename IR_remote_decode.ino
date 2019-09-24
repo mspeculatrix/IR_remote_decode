@@ -14,12 +14,10 @@
 #include <IRremote.h>
 #include "irdecode-simple.h"
 
-#define LED_PIN 4
-#define RECV_PIN 5
+#define LED_PIN 4   // any pin capable of digital output
+#define RECV_PIN 5  // any pin capable if digital input
 
-
-// --- IR SENSOR --------------------------------------------------------------------------
-// Define IR Receiver and Results Objects
+// IR receiver and results objects
 IRrecv irrecv(RECV_PIN);
 decode_results results;
 
@@ -50,12 +48,15 @@ void setup() {
 // ***************************************************************************************
 void loop() {
   if (irrecv.decode(&results)) {
-    flashLED(2, 10);
-    Serial.print("0x"); Serial.print(results.value, HEX);
-    Serial.print("  "); Serial.print(results.value, HEX);
-    Serial.print("  "); Serial.print(results.bits);
-    Serial.print("  "); Serial.println(decodeType(results.decode_type));
-
+    // The value of 0xFFFFFFFF indicates repeat sending of the same code,
+    // so we don't need it.
+    if(results.value != 0xFFFFFFFF) {
+      flashLED(2, 10);
+      Serial.print("0x"); Serial.print(results.value, HEX);
+      Serial.print("  "); Serial.print(results.value, HEX);
+      Serial.print("  "); Serial.print(results.bits);
+      Serial.print("  "); Serial.println(decodeType(results.decode_type));
+    }
     irrecv.resume();
   }
 }
