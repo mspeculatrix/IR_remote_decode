@@ -14,7 +14,7 @@
 #include <IRremote.h>
 #include "irdecode-simple.h"
 
-#define LED_PIN 4   // any pin capable of digital output
+#define LED_PIN 6   // any pin capable of digital output
 #define RECV_PIN 5  // any pin capable if digital input
 
 // IR receiver and results objects
